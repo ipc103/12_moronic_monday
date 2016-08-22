@@ -10,14 +10,15 @@ class SongsController < ApplicationController
 
   def new
     @song = Song.new
+    @genres = Genre.all
   end
 
   def edit
   end
 
   def create
+    # params {song: {genre_ids: [1, 4, 5]}}
     @song = Song.new(song_params)
-
     if @song.save
       redirect_to @song, notice: 'Song was successfully created.'
     else
@@ -39,6 +40,7 @@ class SongsController < ApplicationController
 
   def destroy
     @song.destroy
+    # @song.delete - no callbacks
     redirect_to songs_url, notice: 'Song was successfully destroyed.'
   end
 
@@ -50,6 +52,6 @@ class SongsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def song_params
-      params.require(:song).permit(:name, :artist_id)
+      params.require(:song).permit(:name, :artist_id, genre_ids: [])
     end
 end

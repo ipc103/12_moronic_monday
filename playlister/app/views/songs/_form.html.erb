@@ -1,3 +1,12 @@
+<!-- What HTTP Method and What URL do I use to RESTfully create a new song? -->
+
+<!-- POST '/songs' TO SongsController#create new/save OR create INSERT INTO songs (etc.) -->
+
+Steps:
+
+1. We need to get all of the genres
+2. Loop through the collection of genres
+3. Create a checkbox for each one
 <%= form_for(@song) do |f| %>
   <% if @song.errors.any? %>
     <div id="error_explanation">
@@ -13,12 +22,20 @@
 
   <div class="field">
     <%= f.label :name %><br>
-    <%= f.text_field :name %>
+    <%= f.text_field :name%>
   </div>
   <div class="field">
     <%= f.label :artist_id %><br>
     <%= f.text_field :artist_id %>
   </div>
+
+  <!-- <% @genres.each do |genre| %>
+    <%= f.label :genre, genre.name %>
+    <input type='checkbox' name='song[genre_ids][]' value=<%= genre.id %> >
+  <% end %> -->
+
+  <%= f.collection_check_boxes :genre_ids, @genres, :id, :name %>
+
   <div class="actions">
     <%= f.submit %>
   </div>
